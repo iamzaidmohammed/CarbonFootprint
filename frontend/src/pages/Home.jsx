@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Leaf, ShieldCheck, Zap } from "lucide-react";
 import StepCard from "../components/StepCard";
+import LoadingScreen from "../components/LoadingScreen";
 import axios from "axios";
 
 const Home = () => {
@@ -31,6 +32,7 @@ const Home = () => {
 
   return (
     <div className="bg-eco-dark min-h-screen font-sans">
+      {loading && <LoadingScreen url={url} />}
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center pt-20 pb-10 px-4 text-center">
         <div className="bg-eco-green/20 text-eco-accent px-4 py-1 rounded-full text-sm mb-6 border border-eco-green/30">
