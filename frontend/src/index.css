@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --color-eco-dark: #0a1a0f;
+  --color-eco-green: #2e7d32;
+  --color-eco-accent: #81c784;
+}
