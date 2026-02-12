@@ -1,8 +1,19 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+
 function App() {
   return (
-    <div className="bg-eco-dark h-screen w-2 f">
-      <p className="text-3xl font-bold text-eco-accent">Hello world!</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/results/:id"
+          element={<div>Results Page Loading...</div>}
+        />
+        <Route path="/history" element={<div>History Page</div>} />
+      </Routes>
+    </Router>
   );
 }
 
