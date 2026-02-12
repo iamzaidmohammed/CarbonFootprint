@@ -23,6 +23,10 @@ const AuditSchema = new mongoose.Schema({
       action: { type: String },
     },
   ],
+  hosting: {
+    isGreen: Boolean,
+    provider: String,
+  },
 });
 
 module.exports = mongoose.model("Audit", AuditSchema);

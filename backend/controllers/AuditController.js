@@ -1,6 +1,7 @@
 const { scanUrl } = require("../services/ScannerService");
 const { calculateEmissions } = require("../services/CalculatorService");
 const { getRecommendations } = require("../services/RecommendationService");
+const { checkGreenHosting } = require("../services/HostingService");
 const Audit = require("../models/Audit");
 
 const runAudit = async (req, res) => {
@@ -8,17 +9,27 @@ const runAudit = async (req, res) => {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL is required" });
 
-    const scanData = await scanUrl(url);
-    const emissions = calculateEmissions(scanData.totalBytes, false);
+    // 1. Check if the hosting is green
+    const hostingData = await checkGreenHosting(url);
 
-    // GENERATE RECOMMENDATIONS
+    // 2. Scan the site
+    const scanData = await scanUrl(url);
+
+    // 3. Calculate emissions (Pass the real green status now!)
+    const emissions = calculateEmissions(
+      scanData.totalBytes,
+      hostingData.isGreen,
+    );
+
     const tips = getRecommendations(scanData);
 
+    // 4. Save to Database (including hosting info)
     const newAudit = new Audit({
       url,
       dataTransfer: scanData,
       emissions: emissions,
       recommendations: tips,
+      hosting: hostingData,
     });
 
     await newAudit.save();
