@@ -26,6 +26,7 @@ const AuditSchema = new mongoose.Schema({
   hosting: {
     isGreen: Boolean,
     provider: String,
+    note: String,
   },
 });
 

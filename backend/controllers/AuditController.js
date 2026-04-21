@@ -39,7 +39,6 @@ const runAudit = async (req, res) => {
   }
 };
 
-// READ: Get the last 10 audits from the database
 const getHistory = async (req, res) => {
   try {
     const history = await Audit.find().sort({ timestamp: -1 }).limit(10);
@@ -49,4 +48,14 @@ const getHistory = async (req, res) => {
   }
 };
 
-module.exports = { runAudit, getHistory };
+const getAuditById = async (req, res) => {
+  try {
+    const audit = await Audit.findById(req.params.id);
+    if (!audit) return res.status(404).json({ error: "Audit not found" });
+    res.json(audit);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { runAudit, getHistory, getAuditById };
