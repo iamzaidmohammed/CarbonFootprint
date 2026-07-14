@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Results from "./pages/Results";
 import History from "./pages/History";
 import Navbar from "./components/Navbar";
-
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -14,8 +13,6 @@ function ScrollToTop() {
   }, [pathname]);
   return null;
 }
-
-// Then add <ScrollToTop /> inside your <Router> in App.jsx
 
 function App() {
   return (

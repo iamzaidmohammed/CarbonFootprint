@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Leaf, ShieldCheck, Zap } from "lucide-react";
 import StepCard from "../components/StepCard";
@@ -29,6 +29,10 @@ const Home = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    document.title = "Carbon FootSteps | Measure Website's Carbon Footprint";
+  }, []);
 
   return (
     <div className="bg-eco-dark min-h-screen font-sans">

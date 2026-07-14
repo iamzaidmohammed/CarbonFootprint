@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Calendar, Globe, ArrowRight, Database } from "lucide-react";
@@ -6,6 +6,10 @@ import { Calendar, Globe, ArrowRight, Database } from "lucide-react";
 const History = () => {
   const [audits, setAudits] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = "Global Audit History | Carbon FootSteps";
+  }, []);
 
   useEffect(() => {
     const fetchHistory = async () => {

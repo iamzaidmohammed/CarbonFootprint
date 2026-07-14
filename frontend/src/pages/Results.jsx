@@ -4,6 +4,7 @@ import axios from "axios";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { Leaf, AlertTriangle, ArrowLeft, Globe } from "lucide-react";
+import MethodologyModal from "../components/MethodologyModal";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -11,6 +12,16 @@ const Results = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      const siteName = new URL(data.url).hostname;
+      document.title = `${siteName} - Carbon Audit Report | Carbon FootSteps`;
+    } else {
+      document.title = "Loading Report... | Carbon FootSteps";
+    }
+  }, [data]);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -52,6 +63,10 @@ const Results = () => {
 
   return (
     <div className="bg-eco-dark min-h-screen p-6 font-sans">
+      <MethodologyModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <div className="max-w-6xl mx-auto">
         <Link
           to="/"
@@ -59,6 +74,15 @@ const Results = () => {
         >
           <ArrowLeft className="mr-2 w-4 h-4" /> Back to Search
         </Link>
+
+        <div className="flex justify-end mb-3">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="text-xs text-eco-accent underline hover:text-white hover:cursor-pointer transition-colors"
+          >
+            How is this calculated?
+          </button>
+        </div>
 
         {/* Main Header Card */}
         <div className="bg-white/5 border border-white/10 rounded-3xl p-8 mb-8 flex flex-col md:flex-row items-center justify-between">

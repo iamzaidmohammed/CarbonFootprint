@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Leaf, History, Home, BarChart3 } from "lucide-react";
 
@@ -43,7 +42,7 @@ const Navbar = () => {
           </Link>
 
           {/* This is a "Decorative" link for your project to look complete */}
-          <div className="h-4 w-[1px] bg-white/10 hidden sm:block"></div>
+          <div className="h-4 w-px bg-white/10 hidden sm:block"></div>
 
           <div className="hidden md:flex items-center gap-2 text-xs text-gray-500">
             <BarChart3 size={14} />
