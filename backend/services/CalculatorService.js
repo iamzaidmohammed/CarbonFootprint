@@ -1,6 +1,6 @@
 // Sustainable Web Design (SWD) Model Constants
 const KWH_PER_GB = 0.81;
-const GLOBAL_CARBON_INTENSITY = 442; // grams of CO2 per kWh
+const GLOBAL_CARBON_INTENSITY = 494; // grams of CO2 per kWh
 
 const calculateEmissions = (bytes, isGreenHost = false) => {
   const gigabytes = bytes / (1024 * 1024 * 1024);

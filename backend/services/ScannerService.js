@@ -1,7 +1,19 @@
 const puppeteer = require("puppeteer");
 
 const scanUrl = async (url) => {
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    headless: true,
+    ignoreHTTPSErrors: true, // Fixes SSL / certificate errors
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-accelerated-2d-canvas",
+      "--disable-gpu",
+      "--window-size=1920x1080",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    ],
+  });
   const page = await browser.newPage();
 
   // Store data by category
@@ -26,7 +38,7 @@ const scanUrl = async (url) => {
     else resources.other += size;
   });
 
-  await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
+  await page.goto(url, { waitUntil: "networkidle0", timeout: 80000 });
   await browser.close();
 
   return resources;
