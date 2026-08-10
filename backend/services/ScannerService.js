@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 const scanUrl = async (url) => {
   const browser = await puppeteer.launch({
     headless: true,
-    ignoreHTTPSErrors: true, // Fixes SSL / certificate errors
+    ignoreHTTPSErrors: true,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -38,7 +38,7 @@ const scanUrl = async (url) => {
     else resources.other += size;
   });
 
-  await page.goto(url, { waitUntil: "networkidle0", timeout: 80000 });
+  await page.goto(url, { waitUntil: "networkidle0", timeout: 100000 });
   await browser.close();
 
   return resources;
