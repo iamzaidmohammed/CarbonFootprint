@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 const scanUrl = async (url) => {
   const browser = await puppeteer.launch({
     headless: true,
-    ignoreHTTPSErrors: true,
+    acceptInsecureCerts: true,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -14,34 +14,35 @@ const scanUrl = async (url) => {
       "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
     ],
   });
-  const page = await browser.newPage();
 
-  // Store data by category
-  const resources = {
-    totalBytes: 0,
-    images: 0,
-    scripts: 0,
-    css: 0,
-    other: 0,
-  };
+  try {
+    const page = await browser.newPage();
 
-  // Intercept responses to track sizes
-  page.on("response", async (response) => {
-    const headers = response.headers();
-    const size = parseInt(headers["content-length"] || 0);
-    const type = headers["content-type"] || "";
+    const resources = {
+      totalBytes: 0,
+      images: 0,
+      scripts: 0,
+      css: 0,
+      other: 0,
+    };
 
-    resources.totalBytes += size;
-    if (type.includes("image")) resources.images += size;
-    else if (type.includes("javascript")) resources.scripts += size;
-    else if (type.includes("css")) resources.css += size;
-    else resources.other += size;
-  });
+    page.on("response", (response) => {
+      const headers = response.headers();
+      const size = parseInt(headers["content-length"] || 0);
+      const type = headers["content-type"] || "";
 
-  await page.goto(url, { waitUntil: "networkidle0", timeout: 100000 });
-  await browser.close();
+      resources.totalBytes += size;
+      if (type.includes("image")) resources.images += size;
+      else if (type.includes("javascript")) resources.scripts += size;
+      else if (type.includes("css")) resources.css += size;
+      else resources.other += size;
+    });
 
-  return resources;
+    await page.goto(url, { waitUntil: "networkidle0", timeout: 100000 });
+    return resources;
+  } finally {
+    await browser.close();
+  }
 };
 
 module.exports = { scanUrl };
