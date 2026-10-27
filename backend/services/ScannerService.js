@@ -1,8 +1,33 @@
 const puppeteer = require("puppeteer");
 
-const scanUrl = async (url) => {
+// --- Concurrency cap: each scan launches a full Chrome, so limit how many run at once ---
+const MAX_CONCURRENT = parseInt(process.env.MAX_CONCURRENT_SCANS || "1", 10);
+const MAX_QUEUE = 5;
+let active = 0;
+const waiting = [];
+
+const acquire = () =>
+  new Promise((resolve, reject) => {
+    if (active < MAX_CONCURRENT) {
+      active++;
+      return resolve();
+    }
+    if (waiting.length >= MAX_QUEUE) {
+      return reject(new Error("Server is busy. Please try again shortly."));
+    }
+    waiting.push(resolve);
+  });
+
+const release = () => {
+  const next = waiting.shift();
+  if (next) next(); // hand the slot straight to the next request
+  else active--;
+};
+
+const runScan = async (url) => {
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
     acceptInsecureCerts: true,
     args: [
       "--no-sandbox",
@@ -38,10 +63,19 @@ const scanUrl = async (url) => {
       else resources.other += size;
     });
 
-    await page.goto(url, { waitUntil: "networkidle0", timeout: 100000 });
+    await page.goto(url, { waitUntil: "networkidle0", timeout: 45000 });
     return resources;
   } finally {
     await browser.close();
+  }
+};
+
+const scanUrl = async (url) => {
+  await acquire();
+  try {
+    return await runScan(url);
+  } finally {
+    release();
   }
 };
 

@@ -4,6 +4,7 @@ import { Search, Leaf, ShieldCheck, Zap } from "lucide-react";
 import StepCard from "../components/StepCard";
 import LoadingScreen from "../components/LoadingScreen";
 import axios from "axios";
+import { API_URL } from "../config";
 
 const Home = () => {
   const [url, setUrl] = useState("");
@@ -17,7 +18,7 @@ const Home = () => {
     setLoading(true);
     try {
       // We call our Node.js backend
-      const response = await axios.post("http://localhost:5000/api/audit", {
+      const response = await axios.post(`${API_URL}/api/audit`, {
         url,
       });
       // Redirect to the results page with the ID from MongoDB

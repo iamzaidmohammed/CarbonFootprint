@@ -5,3 +5,7 @@ dist/
 *.log
 .vscode/
 
+
+# Vite cache
+.vite/
+frontend/.vite/
