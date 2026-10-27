@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { Leaf, AlertTriangle, ArrowLeft, Globe } from "lucide-react";
@@ -26,11 +27,8 @@ const Results = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/history`);
-        // For now, we fetch from history and find the ID.
-        // In a real app, you'd have a specific GET /api/audit/:id route.
-        const audit = response.data.find((a) => a._id === id);
-        setData(audit);
+        const response = await axios.get(`${API_URL}/api/audit/${id}`);
+        setData(response.data);
       } catch (err) {
         console.error("Error fetching results", err);
       } finally {

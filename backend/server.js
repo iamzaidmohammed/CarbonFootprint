@@ -8,7 +8,11 @@ const auditRoutes = require("./routes/auditRoutes");
 const app = express();
 
 // Middleware
-app.use(cors());
+// Allow only your frontend (comma-separated list in CORS_ORIGIN); open if unset (local dev)
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim())
+  : true;
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 // Routes

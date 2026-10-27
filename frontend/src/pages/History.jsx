@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config";
 import { Calendar, Globe, ArrowRight, Database } from "lucide-react";
 
 const History = () => {
@@ -14,7 +15,7 @@ const History = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/history");
+        const response = await axios.get(`${API_URL}/api/history`);
         setAudits(response.data);
       } catch (err) {
         console.error("Failed to fetch history:", err);

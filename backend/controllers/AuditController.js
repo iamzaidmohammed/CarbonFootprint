@@ -3,11 +3,18 @@ const { calculateEmissions } = require("../services/CalculatorService");
 const { getRecommendations } = require("../services/RecommendationService");
 const { checkGreenHosting } = require("../services/HostingService");
 const Audit = require("../models/Audit");
+const { validateUrl } = require("../services/UrlGuard");
 
 const runAudit = async (req, res) => {
   try {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL is required" });
+
+    try {
+      await validateUrl(url);
+    } catch (urlError) {
+      return res.status(400).json({ error: urlError.message });
+    }
 
     console.log(`Starting secure audit process for: ${url}`);
 
