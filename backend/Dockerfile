@@ -1,10 +1,9 @@
 # Official Puppeteer image: already contains Chrome and all its system libraries
 FROM ghcr.io/puppeteer/puppeteer:24
 
-# Don't download a second Chrome; use the one in the image
-ENV PUPPETEER_SKIP_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
-    NODE_ENV=production
+# Let Puppeteer use its own default Chrome (npm ci downloads the matching version
+# into the user's cache), so we don't hard-code a path that might not exist.
+ENV NODE_ENV=production
 
 WORKDIR /app
 
