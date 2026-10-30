@@ -6,7 +6,11 @@ A web app that estimates the carbon footprint of any website. Enter a URL and it
 
 > The backend runs on a free hosting tier that sleeps when idle, so the first audit after a quiet period can take a minute to wake up.
 
-![Home](docs/home.png) ![Results](docs/results.png)
+#### Home Page
+![Home](docs/home.png)
+
+#### Results Page
+![Results](docs/results.png)
 
 ## Features
 
