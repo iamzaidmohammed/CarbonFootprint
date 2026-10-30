@@ -1,4 +1,4 @@
-# Carbon FootSteps 🌱
+# Carbon FootSteps
 
 A web app that estimates the carbon footprint of any website. Enter a URL and it loads the page in a headless browser, measures how much data it transfers, estimates the CO₂ emitted per page view, checks whether the host runs on renewable energy, and returns a grade with practical tips to reduce the page's impact.
 
@@ -6,7 +6,7 @@ A web app that estimates the carbon footprint of any website. Enter a URL and it
 
 > The backend runs on a free hosting tier that sleeps when idle, so the first audit after a quiet period can take a minute to wake up.
 
-<!-- Add screenshots here, e.g. ![Home](docs/home.png) ![Results](docs/results.png) -->
+![Home](docs/home.png) ![Results](docs/results.png)
 
 ## Features
 
@@ -35,32 +35,32 @@ React (Vite) on Vercel ──► Express API on Render (Docker) ──► MongoD
 5. A grade is assigned from grams of CO₂ per view:
 
    | Grade | CO₂ per view |
-   |-------|--------------|
-   | A | < 0.2 g |
-   | B | < 0.5 g |
-   | C | < 1.0 g |
-   | D | < 2.0 g |
-   | F | ≥ 2.0 g |
+   | ----- | ------------ |
+   | A     | < 0.2 g      |
+   | B     | < 0.5 g      |
+   | C     | < 1.0 g      |
+   | D     | < 2.0 g      |
+   | F     | ≥ 2.0 g      |
 
 6. Recommendation rules run on the scan data (page over 2 MB, images over 60% of bytes, JavaScript over 30%, CSS over 100 KB).
 7. The audit is saved and returned to the frontend.
 
 ## Tech stack
 
-| Layer | Tools |
-|-------|-------|
-| Frontend | React 19, Vite, React Router, Tailwind CSS, Chart.js, Axios |
-| Backend | Node.js, Express 5, Mongoose, Puppeteer |
-| Database | MongoDB Atlas |
-| Deployment | Vercel (frontend), Render with Docker (backend) |
+| Layer      | Tools                                                       |
+| ---------- | ----------------------------------------------------------- |
+| Frontend   | React 19, Vite, React Router, Tailwind CSS, Chart.js, Axios |
+| Backend    | Node.js, Express 5, Mongoose, Puppeteer                     |
+| Database   | MongoDB Atlas                                               |
+| Deployment | Vercel (frontend), Render with Docker (backend)             |
 
 ## API
 
-| Method | Route | Description |
-|--------|-------|-------------|
-| `POST` | `/api/audit` | Scan a URL. Body: `{ "url": "https://example.com" }` |
-| `GET` | `/api/audit/:id` | Fetch one saved audit |
-| `GET` | `/api/history` | The 10 most recent audits |
+| Method | Route            | Description                                          |
+| ------ | ---------------- | ---------------------------------------------------- |
+| `POST` | `/api/audit`     | Scan a URL. Body: `{ "url": "https://example.com" }` |
+| `GET`  | `/api/audit/:id` | Fetch one saved audit                                |
+| `GET`  | `/api/history`   | The 10 most recent audits                            |
 
 ## Running locally
 
@@ -91,13 +91,13 @@ npm run dev
 
 ### Environment variables
 
-| Variable | Where | Purpose |
-|----------|-------|---------|
-| `MONGODB_URI` | Backend | MongoDB connection string |
-| `PORT` | Backend | Server port (default `5000`) |
-| `CORS_ORIGIN` | Backend | Allowed frontend origin(s), comma-separated. Open if unset |
-| `MAX_CONCURRENT_SCANS` | Backend | Parallel scans allowed (default `1`) |
-| `VITE_API_URL` | Frontend | Backend base URL, without a trailing slash |
+| Variable               | Where    | Purpose                                                    |
+| ---------------------- | -------- | ---------------------------------------------------------- |
+| `MONGODB_URI`          | Backend  | MongoDB connection string                                  |
+| `PORT`                 | Backend  | Server port (default `5000`)                               |
+| `CORS_ORIGIN`          | Backend  | Allowed frontend origin(s), comma-separated. Open if unset |
+| `MAX_CONCURRENT_SCANS` | Backend  | Parallel scans allowed (default `1`)                       |
+| `VITE_API_URL`         | Frontend | Backend base URL, without a trailing slash                 |
 
 ### Docker (backend)
 
@@ -122,4 +122,4 @@ docker run -p 5000:5000 --env-file .env carbon-backend
 
 ## Project background
 
-Built as a university dissertation project at AAMUSTED (Department of Information Technology Education). <!-- Add collaborators here if you want to credit them. -->
+Built as a university dissertation project at USTED (Department of Information Technology Education).
